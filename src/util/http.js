@@ -1,12 +1,12 @@
 import { QueryClient } from "@tanstack/react-query";
 // import { redirect } from "react-router";
 
-const BACKEND_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 export const queryClient = new QueryClient();
 
 export const signup = async (signupData) => {
-    const response = await fetch(BACKEND_URL + "/signup", {
+    const response = await fetch(API_URL + "/signup", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export const signup = async (signupData) => {
 }
 
 export const login = async (loginData) => {
-    const response = await fetch(BACKEND_URL + "/login", {
+    const response = await fetch(API_URL + "/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -70,7 +70,7 @@ export const logout = () => {
 }
 
 export const createPost = async (postData) => {
-    const response = await fetch(BACKEND_URL + "/posts", {
+    const response = await fetch(API_URL + "/posts", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -91,7 +91,7 @@ export const createPost = async (postData) => {
 }
 
 export const fetchPosts = async ({ signal }) => {
-    const response = await fetch(BACKEND_URL + "/posts", { signal: signal });
+    const response = await fetch(API_URL + "/posts", { signal: signal });
 
     if (!response.ok) {
         const error = new Error("An error occurred... Failed to load posts.");
@@ -106,7 +106,7 @@ export const fetchPosts = async ({ signal }) => {
 }
 
 export const fetchPost = async ({ signal, postId }) => {
-    const response = await fetch(BACKEND_URL + `/posts/${postId}`, { signal: signal });
+    const response = await fetch(API_URL + `/posts/${postId}`, { signal: signal });
 
     if (!response.ok) {
         const error = new Error("An error occurred... Failed to load post details.");
@@ -121,7 +121,7 @@ export const fetchPost = async ({ signal, postId }) => {
 }
 
 export const fetchUsers = async () => {
-    const response = await fetch(BACKEND_URL + "/users");
+    const response = await fetch(API_URL + "/users");
 
     if (!response.ok) {
         const error = new Error("An error occurred...");
@@ -136,7 +136,7 @@ export const fetchUsers = async () => {
 }
 
 export const fetchUser = async ({ signal, userId }) => {
-    const response = await fetch(BACKEND_URL + `/users/${userId}`, { signal: signal });
+    const response = await fetch(API_URL + `/users/${userId}`, { signal: signal });
 
     if (!response.ok) {
         const error = new Error("An error occurred...");
@@ -151,7 +151,7 @@ export const fetchUser = async ({ signal, userId }) => {
 }
 
 export const deletePost = async (postId) => {
-    const response = await fetch(BACKEND_URL + `/posts/${postId}`, {
+    const response = await fetch(API_URL + `/posts/${postId}`, {
         method: "DELETE"
     });
 
@@ -168,7 +168,7 @@ export const deletePost = async (postId) => {
 }
 
 export const editPost = async ({ postId, postData }) => {
-    const response = await fetch(BACKEND_URL + `/posts/${postId}`, {
+    const response = await fetch(API_URL + `/posts/${postId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -189,7 +189,7 @@ export const editPost = async ({ postId, postData }) => {
 }
 
 export const editUser = async ({ userId, userData }) => {
-    const response = await fetch(BACKEND_URL + `/users/${userId}`, {
+    const response = await fetch(API_URL + `/users/${userId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
