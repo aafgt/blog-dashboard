@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import Input from "./UI/Input";
 import { NavLink, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { login, signup } from "../util/http";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth-slice";
+import { getAuthToken } from "../util/auth";
 
 const validName = (input) => {
     return /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(input);
@@ -13,6 +14,14 @@ const validName = (input) => {
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const isAuthenticated = getAuthToken();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/blog/dashboard");
+        }
+    }, [isAuthenticated]);
 
     const [mode, setMode] = useState("login");
     const toggleMode = () => {
@@ -55,7 +64,7 @@ const Login = () => {
                 return;
             }
 
-            if(!userData.username.trim()) {
+            if (!userData.username.trim()) {
                 alert("Username cannot be empty.");
                 return;
             }
@@ -96,7 +105,7 @@ const Login = () => {
 
                 <div className="space-y-1">
                     <p>{mode === "login" ? "Don't" : "Already"} have an account? <span className="underline font-bold hover:cursor-pointer hover:text-indigo-500" onClick={toggleMode}>{mode === "login" ? "Signup" : "Login"}</span></p>
-                    <NavLink to="blog/posts" className="text-sm text-indigo-500 hover:cursor-pointer hover:underline" type="button">Continue without logging in...</NavLink>
+                    {/* <NavLink to="blog/posts" className="text-sm text-indigo-500 hover:cursor-pointer hover:underline" type="button">Continue without logging in...</NavLink> */}
                 </div>
             </form>
         </div>

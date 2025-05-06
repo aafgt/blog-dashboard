@@ -1,5 +1,5 @@
-import { NavLink } from "react-router";
-import { getAuthToken } from "../util/auth";
+// import { NavLink } from "react-router";
+// import { getAuthToken } from "../util/auth";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPosts } from "../util/http";
@@ -8,20 +8,20 @@ import MetricCard from "./MetricCard";
 import Posts from "./Posts";
 
 const Dashboard = () => {
-  const isAuthenticated = getAuthToken();
+  // const isAuthenticated = getAuthToken();
 
-  if (!isAuthenticated) {
-    return (
-      <div className="h-full bg-indigo-900 text-white flex flex-col justify-center items-center text-center max-md:w-[calc(100vw-8rem)]">
-        <h1 className="text-8xl max-md:text-5xl max-sm:text-4xl font-bold">Unauthorized!</h1>
-        <p className="text-3xl max-md:text-xl">Please login or signup if you don't have an account to access the dashboard.</p>
+  // if (!isAuthenticated) {
+  //   return (
+  //     <div className="h-full bg-indigo-900 text-white flex flex-col justify-center items-center text-center max-md:w-[calc(100vw-8rem)]">
+  //       <h1 className="text-8xl max-md:text-5xl max-sm:text-4xl font-bold">Unauthorized!</h1>
+  //       <p className="text-3xl max-md:text-xl">Please login or signup if you don't have an account to access the dashboard.</p>
 
-        <NavLink to="/" className="bg-indigo-500 px-5 py-2 rounded-md uppercase my-5 hover:cursor-pointer hover:bg-indigo-400">
-          Login/Signup
-        </NavLink>
-      </div>
-    );
-  }
+  //       <NavLink to="/" className="bg-indigo-500 px-5 py-2 rounded-md uppercase my-5 hover:cursor-pointer hover:bg-indigo-400">
+  //         Login/Signup
+  //       </NavLink>
+  //     </div>
+  //   );
+  // }
 
   const auth = useSelector((state) => state.auth);
 
