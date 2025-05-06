@@ -1,11 +1,12 @@
-import { useDebugValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "./UI/Input";
-import { NavLink, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { login, signup } from "../util/http";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth-slice";
 import { getAuthToken } from "../util/auth";
+import { isPending } from "@reduxjs/toolkit";
 
 const validName = (input) => {
     return /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(input);
@@ -28,7 +29,7 @@ const Login = () => {
         mode === "login" ? setMode("signup") : setMode("login");
     }
 
-    const { mutate: signupMutate, isError: signupIsError, error: signupError } = useMutation({
+    const { mutate: signupMutate, isPending: signupIsPending, isError: signupIsError, error: signupError } = useMutation({
         mutationFn: signup,
         onSuccess: (data) => {
             dispatch(authActions.login(data));
@@ -36,7 +37,7 @@ const Login = () => {
         }
     })
 
-    const { mutate: loginMutate, isError: loginIsError, error: loginError } = useMutation({
+    const { mutate: loginMutate, isPending: loginIsPending, isError: loginIsError, error: loginError } = useMutation({
         mutationFn: login,
         onSuccess: (data) => {
             dispatch(authActions.login(data));
@@ -100,7 +101,8 @@ const Login = () => {
                 </div>
 
                 <div className="flex justify-end">
-                    <button className="bg-indigo-500 px-5 py-2 rounded-md uppercase hover:cursor-pointer hover:bg-indigo-400">{mode}</button>
+                    {(loginIsPending || signupIsPending) && <p>Loading...</p>}
+                    {!(loginIsPending || signupIsPending) && <button className="bg-indigo-500 px-5 py-2 rounded-md uppercase hover:cursor-pointer hover:bg-indigo-400">{mode}</button>}
                 </div>
 
                 <div className="space-y-1">
