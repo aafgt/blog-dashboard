@@ -5,6 +5,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     ref?: React.Ref<HTMLInputElement>;
 }
 
+/**
+ * This component renders a general input with a label.
+ */
 const Input: React.FC<InputProps> = ({ label, id, ...props }) => {
     return (
         <div className="flex flex-col w-full">

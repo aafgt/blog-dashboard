@@ -7,6 +7,9 @@ interface PostProps {
   post: PostInterface;
 }
 
+/**
+ * This component renders a post card.
+ */
 const Post: React.FC<PostProps> = ({ post }) => {
     return (
         <Link to={(post.id).toString()} className="bg-white text-indigo-700 font-bold text-3xl rounded-lg shadow-lg p-4 min-h-48 flex flex-col">

@@ -8,6 +8,9 @@ import { authActions } from "../store/auth-slice";
 import { getAuthUserId } from "../util/auth";
 import { RootState } from "../store";
 
+/**
+ * This component renders a profile card with all user's details.
+ */
 const ProfileDetails: React.FC = () => {
     const [selectImage, setSelectImage] = useState(false);
     const pfpRef = useRef<HTMLInputElement>(null);

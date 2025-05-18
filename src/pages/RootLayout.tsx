@@ -1,6 +1,9 @@
 import { useIsFetching } from "@tanstack/react-query";
 import { Outlet } from "react-router";
 
+/**
+ * This component renders a layout for the app.
+ */
 const RootLayout: React.FC = () => {
     const fetching = useIsFetching();
 

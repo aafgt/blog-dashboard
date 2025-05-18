@@ -9,7 +9,10 @@ import LogoutIcon from "./Icons/LogoutIcon";
 import { useDispatch } from 'react-redux';
 import { authActions } from "../store/auth-slice";
 
-const Sidebar = () => {
+/**
+ * This component renders a sidebar with links to the pages for navigation.
+ */
+const Sidebar: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

@@ -5,6 +5,9 @@ interface RouteError {
   data?: any;
 }
 
+/**
+ * This component renders an Error.
+ */
 const Err: React.FC = () => {
   const error = useRouteError() as RouteError;
 

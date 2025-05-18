@@ -3,6 +3,9 @@ import { useParams } from "react-router";
 import { fetchPost } from "../util/http";
 import { formattedDateTime } from "../util/util";
 
+/**
+ * This component renders a post with all its details.
+ */
 const PostDetails: React.FC = () => {
     const params = useParams();
 

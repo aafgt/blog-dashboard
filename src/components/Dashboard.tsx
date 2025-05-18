@@ -9,7 +9,10 @@ import Posts from "./Posts";
 import { PostDetailsInterface } from "../types";
 import { RootState } from "../store";
 
-const Dashboard = () => {
+/**
+ * This component renders the user's metrics, profile details and posts.
+ */
+const Dashboard: React.FC = () => {
   // const isAuthenticated = getAuthToken();
 
   // if (!isAuthenticated) {

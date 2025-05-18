@@ -2,6 +2,9 @@ import Sidebar from '../components/Sidebar';
 import { NavLink, Outlet } from 'react-router';
 import { getAuthToken } from '../util/auth';
 
+/**
+ * This component renders a layout for authenticated user's dashboard.
+ */
 const DashboardLayout: React.FC = () => {
 
   const isAuthenticated = getAuthToken();

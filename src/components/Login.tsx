@@ -14,7 +14,10 @@ const validName = (input: string) => {
     return /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(input);
 }
 
-const Login = () => {
+/**
+ * This component renders a login/signup form to authenticate users.
+ */
+const Login: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 

@@ -10,6 +10,9 @@ interface DashboardPostProps {
     post: PostInterface;
 }
 
+/**
+ * This component renders a post card with edit and delete buttons.
+ */
 const DashboardPost: React.FC<DashboardPostProps> = ({ post }) => {
 
     const { mutate, isPending, isError, error } = useMutation({

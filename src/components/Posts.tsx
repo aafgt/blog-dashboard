@@ -14,6 +14,10 @@ interface PostsProps {
 
 const ITEMS_PER_PAGE = 4;
 
+/**
+ * This component renders Post's cards with pagination and 
+ * DashboardPost's cards with pagination and edit and delete buttons for the user's posts .
+ */
 const Posts: React.FC<PostsProps> = ({ username }) => {
   const [page, setPage] = useState(1);
   // const blogPosts = useSelector((state) => state.blog.posts);

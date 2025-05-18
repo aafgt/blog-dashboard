@@ -5,6 +5,9 @@ import { useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 // import { useSelector } from "react-redux";
 
+/**
+ * This component renders a post form to edit existing posts.
+ */
 const EditPostForm: React.FC = () => {
 
     const params = useParams();

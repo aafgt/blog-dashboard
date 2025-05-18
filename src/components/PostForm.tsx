@@ -5,6 +5,9 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
+/**
+ * This component renders a post form to create new posts.
+ */
 const PostForm: React.FC = () => {
     const auth = useSelector((state: RootState) => state.auth);
 

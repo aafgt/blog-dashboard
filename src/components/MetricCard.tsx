@@ -4,6 +4,9 @@ interface MetricCardProps {
   value: number;
 }
 
+/**
+ * This component renders a metric card with a title and a value.
+ */
 const MetricCard: React.FC<MetricCardProps> = ({ title, value }) => {
     return (
         <div className="bg-white text-black rounded-lg shadow-lg p-5">
