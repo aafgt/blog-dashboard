@@ -1,4 +1,4 @@
-export const formattedDateTime = (date) => {
+export const formattedDateTime = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
         day: 'numeric',
         month: 'short',
@@ -9,7 +9,7 @@ export const formattedDateTime = (date) => {
     });
 };
 
-export const formattedDate = (date) => {
+export const formattedDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
         day: 'numeric',
         month: 'short',
@@ -17,7 +17,7 @@ export const formattedDate = (date) => {
     });
 };
 
-export const getPaginationRange = (currentPage, totalPages, siblingCount = 1) => {
+export const getPaginationRange = (currentPage: number, totalPages: number, siblingCount = 1) => {
     const DOTS = "...";
     const totalNumbers = siblingCount * 2 + 5;
 
@@ -54,14 +54,14 @@ export const getPaginationRange = (currentPage, totalPages, siblingCount = 1) =>
     return Array.from({ length: totalPages }, (_, i) => i + 1);
 }
 
-export const getPaginationRange2 = (currentPage, totalPages) => {
+export const getPaginationRange2 = (currentPage: number, totalPages: number) => {
     const DOTS = "...";
     
     if (totalPages <= 3) {
         return Array.from({ length: totalPages }, (_, i) => i+1);
     }
 
-    const pages = new Set();
+    const pages = new Set<number>();
 
     pages.add(1);
     pages.add(totalPages);

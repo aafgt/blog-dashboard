@@ -1,7 +1,13 @@
 import { Link } from "react-router";
 import { formattedDateTime } from "../util/util";
 
-const Post = ({ post }) => {
+import { PostInterface } from "../types";
+
+interface PostProps {
+  post: PostInterface;
+}
+
+const Post: React.FC<PostProps> = ({ post }) => {
     return (
         <Link to={(post.id).toString()} className="bg-white text-indigo-700 font-bold text-3xl rounded-lg shadow-lg p-4 min-h-48 flex flex-col">
             <img src={post?.postImage ?? null} alt="Post image" className="object-fill w-full h-56 rounded-lg" />

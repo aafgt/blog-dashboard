@@ -4,8 +4,13 @@ import DeleteIcon from "./Icons/DeleteIcon";
 import EditIcon from "./Icons/EditIcon";
 import { useMutation } from "@tanstack/react-query";
 import { deletePost, queryClient } from "../util/http";
+import { PostInterface } from "../types";
 
-const DashboardPost = ({ post }) => {
+interface DashboardPostProps {
+    post: PostInterface;
+}
+
+const DashboardPost: React.FC<DashboardPostProps> = ({ post }) => {
 
     const { mutate, isPending, isError, error } = useMutation({
         mutationFn: deletePost,
@@ -15,7 +20,7 @@ const DashboardPost = ({ post }) => {
         }
     })
 
-    const handleDelete = (postId, postTitle) => {
+    const handleDelete = (postId: number, postTitle: string) => {
         const confirm = window.confirm(`"${postTitle}"\n Are you sure you want to delete this post?`);
 
         if (!confirm) {

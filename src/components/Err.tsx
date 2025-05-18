@@ -1,13 +1,18 @@
 import { NavLink, useRouteError } from "react-router";
 
-const Err = () => {
-  const error = useRouteError();
+interface RouteError {
+  status?: number;
+  data?: any;
+}
+
+const Err: React.FC = () => {
+  const error = useRouteError() as RouteError;
 
   let title = "Error";
   let message = "An error has occurred...";
 
   if (error.status === 500) {
-    message = error.data.message;
+    message = error.data?.message;
   }
 
   if (error.status === 404) {

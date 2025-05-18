@@ -6,17 +6,21 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { formattedDate } from "../util/util";
 import { authActions } from "../store/auth-slice";
 import { getAuthUserId } from "../util/auth";
+import { RootState } from "../store";
 
-const ProfileDetails = () => {
+const ProfileDetails: React.FC = () => {
     const [selectImage, setSelectImage] = useState(false);
-    const pfpRef = useRef();
+    const pfpRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch();
 
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((state: RootState) => state.auth);
 
     const { data: user, isPending, isError, error } = useQuery({
         queryKey: [{ userId: getAuthUserId() }],
-        queryFn: ({ signal, queryKey }) => fetchUser({ signal, ...queryKey[0] }),
+        queryFn: ({ signal, queryKey }) => {
+            const queryParams = queryKey[0] && typeof queryKey[0] === "object" ? { userId: Number(queryKey[0].userId) } : { userId: -1 };   
+            return fetchUser({ signal, ...queryParams });
+        },
         staleTime: 5 * 60 * 1000
     })
 
@@ -41,7 +45,7 @@ const ProfileDetails = () => {
             return;
         }
 
-        editUserMutate({ userId: auth?.user?.id, userData: { profileImage: pfpRef?.current?.value } });
+        editUserMutate({ userId: auth?.user?.id ?? -1, userData: { profileImage: pfpRef?.current?.value } });
         setSelectImage((prev) => !prev);
     }
 
@@ -87,7 +91,7 @@ const ProfileDetails = () => {
 
                     <div className="flex items-center">
                         <h4 className="font-bold text-xl mr-3">Joined:</h4>
-                        <p className="text-indigo-500 font-extrabold text-lg">{formattedDate(auth?.user?.joinDate)}</p>
+                        <p className="text-indigo-500 font-extrabold text-lg">{formattedDate(auth?.user?.joinDate ?? "")}</p>
                     </div>
                 </div>
             </div>

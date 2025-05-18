@@ -1,5 +1,11 @@
 
-const Input = ({ label, id, ...props }) => {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label: string;
+    id: string;
+    ref?: React.Ref<HTMLInputElement>;
+}
+
+const Input: React.FC<InputProps> = ({ label, id, ...props }) => {
     return (
         <div className="flex flex-col w-full">
             <label className="text-2xl" htmlFor={id}>{label}</label>

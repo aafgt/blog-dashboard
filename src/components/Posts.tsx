@@ -3,16 +3,22 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPosts } from "../util/http";
 import Post from "./Post";
 import DashboardPost from "./DashboardPost";
-import { useState } from "react";
+import React, { useState } from "react";
 import { getPaginationRange2 } from "../util/util";
+
+import { PostDetailsInterface } from "../types";
+
+interface PostsProps {
+  username?: string;
+}
 
 const ITEMS_PER_PAGE = 4;
 
-const Posts = ({ username }) => {
+const Posts: React.FC<PostsProps> = ({ username }) => {
   const [page, setPage] = useState(1);
   // const blogPosts = useSelector((state) => state.blog.posts);
 
-  const { data: blogPosts, isPending, isError, error } = useQuery({
+  const { data: blogPosts, isPending, isError, error } = useQuery<PostDetailsInterface[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
     staleTime: 5 * 60 * 1000
@@ -33,7 +39,7 @@ const Posts = ({ username }) => {
   const paginationRange = getPaginationRange2(page, totalPages);
 
   if (username) {
-    const userBlogPosts = blogPosts?.filter((post) => post.username === username);
+    const userBlogPosts = blogPosts?.filter((post: PostDetailsInterface) => post.username === username);
 
     const userTotalPages = Math.ceil(userBlogPosts?.length / ITEMS_PER_PAGE);
     const userPaginatedBlogPosts = userBlogPosts?.slice(start, end);
@@ -44,7 +50,7 @@ const Posts = ({ username }) => {
         {userBlogPosts?.length > 0 &&
           <>
             <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-5">
-              {userPaginatedBlogPosts?.map((post) => (
+              {userPaginatedBlogPosts?.map((post: PostDetailsInterface) => (
                 <DashboardPost key={post.id} post={post} />
               ))}
             </div>
@@ -56,7 +62,7 @@ const Posts = ({ username }) => {
                 pg === "..." ? (
                   <span key={index}>...</span>
                 ) : (
-                  <button key={index} type="button" className={`sm:px-5 sm:py-2 rounded-md uppercase hover:cursor-pointer hover:bg-indigo-400 max-sm:size-3.5 max-sm:text-xs flex justify-center items-center ${pg === page ? "bg-black" : "bg-indigo-500"}`} onClick={() => setPage(pg)}>
+                  <button key={index} type="button" className={`sm:px-5 sm:py-2 rounded-md uppercase hover:cursor-pointer hover:bg-indigo-400 max-sm:size-3.5 max-sm:text-xs flex justify-center items-center ${pg === page ? "bg-black" : "bg-indigo-500"}`} onClick={() => setPage(pg as number)}>
                     {pg}
                   </button>
                 )
@@ -77,7 +83,7 @@ const Posts = ({ username }) => {
       {blogPosts?.length > 0 &&
         <>
           <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-5">
-            {paginatedBlogPosts?.map((post) => (
+            {paginatedBlogPosts?.map((post: PostDetailsInterface) => (
               <Post key={post.id} post={post} />
             ))}
           </div>
@@ -89,7 +95,7 @@ const Posts = ({ username }) => {
               pg === "..." ? (
                 <span key={index}>...</span>
               ) : (
-                <button key={index} type="button" className={`sm:px-5 sm:py-2 rounded-md uppercase hover:cursor-pointer hover:bg-indigo-400 max-sm:size-3.5 max-sm:text-xs flex justify-center items-center ${pg === page ? "bg-black" : "bg-indigo-500"}`} onClick={() => setPage(pg)}>
+                <button key={index} type="button" className={`sm:px-5 sm:py-2 rounded-md uppercase hover:cursor-pointer hover:bg-indigo-400 max-sm:size-3.5 max-sm:text-xs flex justify-center items-center ${pg === page ? "bg-black" : "bg-indigo-500"}`} onClick={() => setPage(pg as number)}>
                   {pg}
                 </button>
               )

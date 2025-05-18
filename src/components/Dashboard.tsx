@@ -6,6 +6,8 @@ import { fetchPosts } from "../util/http";
 import ProfileDetails from "./ProfileDetails";
 import MetricCard from "./MetricCard";
 import Posts from "./Posts";
+import { PostDetailsInterface } from "../types";
+import { RootState } from "../store";
 
 const Dashboard = () => {
   // const isAuthenticated = getAuthToken();
@@ -23,9 +25,9 @@ const Dashboard = () => {
   //   );
   // }
 
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state: RootState) => state.auth);
 
-  const { data: blogPosts, isFetching, isError, error } = useQuery({
+  const { data: blogPosts, isFetching, isError, error } = useQuery<PostDetailsInterface[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
     staleTime: 5 * 60 * 1000
@@ -40,7 +42,7 @@ const Dashboard = () => {
   return (
     <div className="h-full">
       <div className="grid grid-cols-3 max-lg:grid-cols-1 gap-5">
-        {isFetching ? <p>Loading...</p> : <MetricCard title="Total Posts" value={userBlogPosts?.length} />}
+        {isFetching ? <p>Loading...</p> : <MetricCard title="Total Posts" value={userBlogPosts?.length ?? 0} />}
         <MetricCard title="..." value={0} />
         <MetricCard title="..." value={0} />
       </div>

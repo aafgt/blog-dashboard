@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import Input from "./UI/Input";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
-import { login, signup } from "../util/http";
+import { customError, login, loginData, signup, signupData } from "../util/http";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth-slice";
 import { getAuthToken } from "../util/auth";
-import { isPending } from "@reduxjs/toolkit";
+import { AppDispatch } from "../store";
+import { UserInterface } from "../types";
+// import { isPending } from "@reduxjs/toolkit";
 
-const validName = (input) => {
+const validName = (input: string) => {
     return /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(input);
 }
 
 const Login = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const isAuthenticated = getAuthToken();
 
@@ -29,7 +31,7 @@ const Login = () => {
         mode === "login" ? setMode("signup") : setMode("login");
     }
 
-    const { mutate: signupMutate, isPending: signupIsPending, isError: signupIsError, error: signupError } = useMutation({
+    const { mutate: signupMutate, isPending: signupIsPending, isError: signupIsError, error: signupError } = useMutation<UserInterface, customError, signupData>({
         mutationFn: signup,
         onSuccess: (data) => {
             dispatch(authActions.login(data));
@@ -37,7 +39,7 @@ const Login = () => {
         }
     })
 
-    const { mutate: loginMutate, isPending: loginIsPending, isError: loginIsError, error: loginError } = useMutation({
+    const { mutate: loginMutate, isPending: loginIsPending, isError: loginIsError, error: loginError } = useMutation<UserInterface, customError, loginData>({
         mutationFn: login,
         onSuccess: (data) => {
             dispatch(authActions.login(data));
@@ -45,13 +47,18 @@ const Login = () => {
         }
     })
 
-    const handleLoginSignup = (event) => {
+    const handleLoginSignup = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const fd = new FormData(event.target);
+        const fd = new FormData(event.currentTarget);
         const userData = Object.fromEntries(fd.entries());
 
         if (mode === "login") {
-            loginMutate(userData);
+            const typedUserData: loginData = {
+                email: userData.email as string,
+                password: userData.password as string
+            }
+
+            loginMutate(typedUserData);
         }
         else if (mode === "signup") {
 
@@ -60,21 +67,30 @@ const Login = () => {
                 return;
             }
 
-            if (!validName(userData.name)) {
+            if (typeof userData.name === "string" && !validName(userData.name)) {
                 alert("Please enter a valid name.");
                 return;
             }
 
-            if (!userData.username.trim()) {
+            if (typeof userData.username === "string" && !userData.username.trim()) {
                 alert("Username cannot be empty.");
                 return;
             }
 
             delete userData["confirm-password"];
             userData.profileImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfnVRTgNkeGxX-jYv4Ld7lDbec10HDXcrRvA&s";
-            userData.joinDate = new Date();
+            userData.joinDate = new Date().toISOString();
 
-            signupMutate(userData);
+            const typedUserData: signupData = {
+                email: userData.email as string,
+                password: userData.password as string,
+                joinDate: userData.joinDate as string,
+                name: userData.name as string,
+                profileImage: userData.profileImage as string,
+                username: userData.username as string
+            }
+
+            signupMutate(typedUserData);
         }
 
         // mode === "login" ? loginMutate(userData) : signupMutate(userData);
@@ -85,8 +101,8 @@ const Login = () => {
             <form onSubmit={handleLoginSignup} className="bg-indigo-950 text-white p-10 space-y-5 my-3 rounded-2xl min-w-2/5 max-lg:w-1/2 max-md:w-full max-md:mx-32 max-sm:mx-5 font-bold">
                 <h2 className="uppercase text-2xl">{mode}</h2>
 
-                {mode === "login" && loginIsError && <p className="text-red-600">{loginError.info}</p>}
-                {mode === "signup" && signupIsError && <p className="text-red-600">{signupError.info}</p>}
+                {mode === "login" && loginIsError && <p className="text-red-600">{String(loginError?.info ?? "An error occurred... Try again later.")}</p>}
+                {mode === "signup" && signupIsError && <p className="text-red-600">{String(signupError?.info ?? "An error occurred... Try again later.")}</p>}
 
                 <Input label="E-Mail" id="email" type="email" />
 

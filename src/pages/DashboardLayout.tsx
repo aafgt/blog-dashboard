@@ -1,9 +1,8 @@
-import React from 'react'
 import Sidebar from '../components/Sidebar';
 import { NavLink, Outlet } from 'react-router';
 import { getAuthToken } from '../util/auth';
 
-const DashboardLayout = () => {
+const DashboardLayout: React.FC = () => {
 
   const isAuthenticated = getAuthToken();
 

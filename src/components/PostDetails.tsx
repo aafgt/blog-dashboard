@@ -3,12 +3,15 @@ import { useParams } from "react-router";
 import { fetchPost } from "../util/http";
 import { formattedDateTime } from "../util/util";
 
-const PostDetails = () => {
+const PostDetails: React.FC = () => {
     const params = useParams();
 
     const { data: post, isPending, isError, error } = useQuery({
         queryKey: ["posts", { postId: params.postId }],
-        queryFn: ({ signal, queryKey }) => fetchPost({ signal, ...queryKey[1] }),
+        queryFn: ({ signal, queryKey }) => {
+            const queryParams = queryKey[1] && typeof queryKey[1] === "object" ? { postId: Number(queryKey[1].postId) } : { postId: -1 };
+            return fetchPost({ signal, ...queryParams });
+        },
         staleTime: 5 * 60 * 1000
     })
 
